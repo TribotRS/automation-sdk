@@ -18,6 +18,10 @@ dependencies {
     compileOnly("com.google.code.gson:gson:2.8.6")
 }
 
+tasks.jar {
+    from(sourceSets.main.get().allSource)
+}
+
 java {
     sourceCompatibility = JavaVersion.VERSION_21
     targetCompatibility = JavaVersion.VERSION_21
