@@ -7,6 +7,9 @@ import java.util.concurrent.atomic.AtomicReference
 
 interface Mouse {
 
+    /** Settings that control how the mouse engine generates movements. */
+    val settings: MouseSettings
+
     /** Current mouse position on the game canvas. */
     val position: Point
 

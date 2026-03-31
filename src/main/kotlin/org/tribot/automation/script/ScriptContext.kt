@@ -63,4 +63,7 @@ interface ScriptContext {
 
     // util
     val waiting: Waiting
+
+    // permissions
+    val permissions: Permissions
 }
