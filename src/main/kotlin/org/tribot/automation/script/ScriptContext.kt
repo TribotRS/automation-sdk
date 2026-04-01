@@ -2,6 +2,7 @@ package org.tribot.automation.script
 
 import net.runelite.api.Client
 import net.runelite.client.callback.ClientThread
+import org.tribot.automation.script.addon.AddonLibraries
 import org.tribot.automation.script.core.*
 import org.tribot.automation.script.core.definition.Definitions
 import org.tribot.automation.script.input.*
@@ -67,4 +68,7 @@ interface ScriptContext {
 
     // permissions
     val permissions: Permissions
+
+    // addon libraries
+    val addonLibraries: AddonLibraries
 }
