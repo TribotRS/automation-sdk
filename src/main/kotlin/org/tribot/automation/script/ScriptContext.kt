@@ -54,6 +54,7 @@ interface ScriptContext {
     // client
     val window: Window
     val screen: Screen
+    val screenPrediction: ScreenPrediction
     val runtime: Runtime
     val scripts: Scripts
     val breakHandler: BreakHandler
