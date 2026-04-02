@@ -24,7 +24,7 @@ import org.tribot.automation.script.util.Waiting
 interface ScriptContext {
     // RuneLite API
     val client: Client
-    val clientThread: ClientThread
+    val clientThread: org.tribot.automation.script.core.ClientThread
 
     // input
     val mouse: Mouse
