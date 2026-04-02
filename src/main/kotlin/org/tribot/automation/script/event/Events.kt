@@ -2,6 +2,7 @@ package org.tribot.automation.script.event
 
 import net.runelite.api.GameState
 import net.runelite.api.events.ChatMessage
+import net.runelite.api.events.MenuOptionClicked
 import java.awt.Graphics2D
 import java.awt.Point
 
@@ -44,6 +45,15 @@ interface Events {
      * Runs in the client thread.
      */
     fun onChatMessage(listener: (message: ChatMessage) -> Unit): ListenerRegistration
+
+    // -- Menu events --
+
+    /**
+     * Called when a menu option is clicked (e.g. "Walk here", "Attack", "Use").
+     *
+     * Runs in the client thread.
+     */
+    fun onMenuOptionClicked(listener: (event: MenuOptionClicked) -> Unit): ListenerRegistration
 
     // -- Script lifecycle --
 
