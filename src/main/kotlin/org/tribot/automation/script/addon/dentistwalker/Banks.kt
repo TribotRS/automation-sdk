@@ -55,5 +55,7 @@ enum class Banks {
     CAM_TORUM,
     OUTER_FORTIS,
     CIVITAS_ILLA_FORTIS,
+    ROUGE_DEN,
+    RFD_CHEST,
     ;
 }
