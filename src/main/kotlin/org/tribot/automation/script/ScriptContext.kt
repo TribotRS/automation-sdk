@@ -75,4 +75,7 @@ interface ScriptContext {
 
     // addon libraries
     val addonLibraries: AddonLibraries
+
+    // automation (function registration & event emission)
+    val automation: Automation
 }
