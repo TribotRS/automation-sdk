@@ -76,9 +76,9 @@ interface ScriptData {
 /**
  * Snapshot of the currently running script's state.
  */
-interface RunningScriptInfo {
+data class RunningScriptInfo(
     /** Run ID assigned when the script was started via [TribotAutomationApi.runScript], or null if started externally (GUI/auto-launch). */
-    val runId: String?
-    val name: String
+    val runId: String?,
+    val name: String,
     val isPaused: Boolean
-}
+)

@@ -1,6 +1,8 @@
 package org.tribot.automation.launcher
 
+import com.google.gson.Gson
 import com.google.gson.JsonObject
+import com.google.gson.reflect.TypeToken
 
 /**
  * Client for the Tribot Launcher's public WebSocket API.
@@ -187,6 +189,8 @@ class LauncherClient(
 
     inner class Clients {
 
+        private val gson = Gson()
+
         fun list(): List<ClientInfo> {
             val result = connection.rpcCall("get_clients")
             val clientsArray = result.getAsJsonArray("clients") ?: return emptyList()
@@ -265,6 +269,43 @@ class LauncherClient(
 
             val result = connection.rpcCall("call_client_function", params)
             return result.get("result")?.let { if (it.isJsonNull) "" else it.asString } ?: ""
+        }
+
+        // --- Script control ---
+
+        fun getScripts(clientId: String): List<ClientScriptData> {
+            val json = callFunction(clientId, "tribot_automation_get_scripts")
+            if (json.isBlank()) return emptyList()
+            return gson.fromJson(json, object : TypeToken<List<ClientScriptData>>() {}.type)
+        }
+
+        fun getRunningScript(clientId: String): ClientScriptInfo? {
+            val json = callFunction(clientId, "tribot_automation_get_running_script")
+            if (json.isBlank()) return null
+            return gson.fromJson(json, ClientScriptInfo::class.java)
+        }
+
+        fun runScript(clientId: String, scriptName: String, args: String = ""): ClientScriptStartResult {
+            val input = gson.toJson(mapOf("name" to scriptName, "args" to args))
+            val json = callFunction(clientId, "tribot_automation_run_script", input)
+            val obj = gson.fromJson(json, JsonObject::class.java)
+            return if (obj.has("runId")) {
+                ClientScriptStartResult.Success(runId = obj.get("runId").asString)
+            } else {
+                ClientScriptStartResult.Error(reason = obj.get("reason")?.asString ?: "Unknown error")
+            }
+        }
+
+        fun stopScript(clientId: String) {
+            callFunction(clientId, "tribot_automation_stop_script")
+        }
+
+        fun pauseScript(clientId: String) {
+            callFunction(clientId, "tribot_automation_pause_script")
+        }
+
+        fun resumeScript(clientId: String) {
+            callFunction(clientId, "tribot_automation_resume_script")
         }
     }
 

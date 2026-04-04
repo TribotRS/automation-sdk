@@ -98,3 +98,20 @@ data class ConnectionTokenResponse(
     val token: String,
     val expiresInSeconds: Long
 )
+
+data class ClientScriptInfo(
+    val runId: String?,
+    val name: String,
+    val isPaused: Boolean
+)
+
+data class ClientScriptData(
+    val name: String,
+    val isLocal: Boolean,
+    val version: String
+)
+
+sealed interface ClientScriptStartResult {
+    data class Success(val runId: String) : ClientScriptStartResult
+    data class Error(val reason: String) : ClientScriptStartResult
+}
