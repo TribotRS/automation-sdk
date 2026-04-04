@@ -1,12 +1,14 @@
 package org.tribot.automation.script
 
 import net.runelite.api.Client
-import net.runelite.client.callback.ClientThread
 import org.tribot.automation.script.addon.AddonLibraries
 import org.tribot.automation.script.core.*
 import org.tribot.automation.script.core.definition.Definitions
 import org.tribot.automation.script.input.*
 import org.tribot.automation.script.client.*
+import org.tribot.automation.script.client.sidecars.BreakHandler
+import org.tribot.automation.script.client.sidecars.LoginHandler
+import org.tribot.automation.script.client.sidecars.Sidecars
 import org.tribot.automation.script.core.tabs.Combat
 import org.tribot.automation.script.core.tabs.Equipment
 import org.tribot.automation.script.core.tabs.Inventory
@@ -59,6 +61,8 @@ interface ScriptContext {
     val runtime: Runtime
     val scripts: Scripts
     val breakHandler: BreakHandler
+    val sidecars: Sidecars
+    val loginHandler: LoginHandler
 
     // events
     val events: Events
