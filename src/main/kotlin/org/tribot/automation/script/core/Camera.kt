@@ -16,4 +16,6 @@ interface Camera {
     fun setRotation(rotation: Int, method: CameraMethod)
     fun turnTo(point: WorldPoint, method: CameraMethod)
     fun turnTo(actor: Actor, method: CameraMethod)
+    fun setCamera(angle: Int, rotation: Int, method: CameraMethod)
+
 }
