@@ -115,3 +115,7 @@ sealed interface ClientScriptStartResult {
     data class Success(val runId: String) : ClientScriptStartResult
     data class Error(val reason: String) : ClientScriptStartResult
 }
+
+data class ClientWindowPosition(val x: Int, val y: Int)
+
+data class ClientWindowSize(val width: Int, val height: Int)

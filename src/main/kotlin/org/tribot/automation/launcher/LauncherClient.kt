@@ -307,6 +307,40 @@ class LauncherClient(
         fun resumeScript(clientId: String) {
             callFunction(clientId, "tribot_automation_resume_script")
         }
+
+        // --- Window control ---
+
+        fun getWindowPosition(clientId: String): ClientWindowPosition {
+            val json = callFunction(clientId, "tribot_automation_window_get_position")
+            return gson.fromJson(json, ClientWindowPosition::class.java)
+        }
+
+        fun setWindowPosition(clientId: String, x: Int, y: Int) {
+            val input = gson.toJson(mapOf("x" to x, "y" to y))
+            callFunction(clientId, "tribot_automation_window_set_position", input)
+        }
+
+        fun getWindowSize(clientId: String): ClientWindowSize {
+            val json = callFunction(clientId, "tribot_automation_window_get_size")
+            return gson.fromJson(json, ClientWindowSize::class.java)
+        }
+
+        fun setWindowSize(clientId: String, width: Int, height: Int) {
+            val input = gson.toJson(mapOf("width" to width, "height" to height))
+            callFunction(clientId, "tribot_automation_window_set_size", input)
+        }
+
+        fun minimizeWindow(clientId: String) {
+            callFunction(clientId, "tribot_automation_window_minimize")
+        }
+
+        fun maximizeWindow(clientId: String) {
+            callFunction(clientId, "tribot_automation_window_maximize")
+        }
+
+        fun restoreWindow(clientId: String) {
+            callFunction(clientId, "tribot_automation_window_restore")
+        }
     }
 
     // --- Machines ---

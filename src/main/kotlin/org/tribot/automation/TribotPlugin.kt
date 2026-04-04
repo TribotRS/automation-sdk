@@ -1,6 +1,8 @@
 package org.tribot.automation
 
 import net.runelite.api.Client
+import org.tribot.automation.script.client.Sidebar
+import org.tribot.automation.script.client.Window
 
 typealias EventEmitter = (name: String, event: String) -> Unit
 typealias GameFunction = (input: String?) -> String
@@ -11,6 +13,8 @@ class TribotPluginContext(
     val eventEmitter: EventEmitter,
     val client: Client,
     val logger: TribotPluginLogger,
+    val window: Window,
+    val sidebar: Sidebar,
 )
 
 interface TribotPlugin {
