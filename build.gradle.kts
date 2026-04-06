@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    api("net.runelite:client:latest.release")
+    compileOnlyApi("net.runelite:client:latest.release")
 
     // WebSocket + JSON — transitive for standalone consumers, already on classpath in echo
     implementation("com.squareup.okhttp3:okhttp:4.9.2")
