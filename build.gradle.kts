@@ -1,9 +1,11 @@
 plugins {
-    id("java")
+    id("java-library")
     kotlin("jvm") version "2.1.21"
+    `maven-publish`
 }
 
 group = "org.tribot"
+version = System.getenv("VERSION") ?: "0.0.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -11,11 +13,11 @@ repositories {
 }
 
 dependencies {
-    compileOnly("net.runelite:client:latest.release")
+    api("net.runelite:client:latest.release")
 
-    // WebSocket + JSON (available at runtime via echo-core)
-    compileOnly("com.squareup.okhttp3:okhttp:4.9.2")
-    compileOnly("com.google.code.gson:gson:2.8.6")
+    // WebSocket + JSON — transitive for standalone consumers, already on classpath in echo
+    implementation("com.squareup.okhttp3:okhttp:4.9.2")
+    implementation("com.google.code.gson:gson:2.8.6")
 }
 
 tasks.jar {
@@ -28,5 +30,13 @@ java {
     targetCompatibility = JavaVersion.VERSION_21
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(21))
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
+        }
     }
 }
