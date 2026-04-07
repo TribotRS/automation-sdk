@@ -15,8 +15,11 @@ import org.tribot.automation.script.core.tabs.Inventory
 import org.tribot.automation.script.core.tabs.Prayer
 import org.tribot.automation.script.core.tabs.Skills
 import org.tribot.automation.script.core.widgets.Banking
+import org.tribot.automation.script.core.widgets.EnterAmount
 import org.tribot.automation.script.core.widgets.Minimap
+import org.tribot.automation.script.core.widgets.PinScreen
 import org.tribot.automation.script.core.widgets.Tabs
+import org.tribot.automation.script.core.world.WorldCache
 import org.tribot.automation.script.event.Events
 import org.tribot.automation.script.util.Waiting
 
@@ -38,7 +41,10 @@ interface ScriptContext {
 
     // core
     val banking: Banking
-    val loginScreen: LoginScreen
+    val pinScreen: PinScreen
+    val enterAmount: EnterAmount
+    val login: Login
+    val worldCache: WorldCache
     val inventory: Inventory
     val equipment: Equipment
     val tabs: Tabs
