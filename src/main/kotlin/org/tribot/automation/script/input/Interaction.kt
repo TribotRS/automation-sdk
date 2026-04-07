@@ -32,11 +32,11 @@ interface Interaction {
      * The mouse will first be moved into [parent]'s bounds if it is not already
      * there, since wheel events are delivered to whatever widget is under the cursor.
      */
-    fun scrollChildIntoView(parent: Widget?, child: Widget?): Boolean
+    fun scrollChildIntoView(parent: Widget, child: Widget): Boolean
 
     /**
      * Returns true if [child] is not fully contained within [parent]'s vertical
      * extent and would therefore require a scroll to become visible.
      */
-    fun needsScroll(parent: Widget?, child: Widget?): Boolean
+    fun needsScroll(parent: Widget, child: Widget): Boolean
 }
