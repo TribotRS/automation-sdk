@@ -1,10 +1,10 @@
 package org.tribot.automation.script.core
 
 /**
- * High-level access to the login flow: state inspection, credential entry,
- * automatic login retry, logout, and world hopping.
- *
- * Replaces the older, much thinner `LoginScreen` interface.
+ * High-level access to the pre-game login flow: state inspection, credential entry,
+ * automatic login retry, and world hopping. The in-game logout action lives on
+ * [org.tribot.automation.script.core.tabs.Logout] since it is performed via the
+ * Logout tab.
  */
 interface Login {
     // --- State queries ---
@@ -37,7 +37,7 @@ interface Login {
      */
     fun getLoginName(): String
 
-    // --- Login / logout / hop ---
+    // --- Login / hop ---
 
     /**
      * Logs in using the account selected when the script was started, or relogs
@@ -48,7 +48,4 @@ interface Login {
 
     /** Logs in with explicit credentials. Pass `totpSecretKey` to handle authenticator prompts. */
     fun login(username: String, password: String, totpSecretKey: String? = null): Boolean
-
-    /** Logs out to the login screen. Returns true if the client ended up on the login screen. */
-    fun logout(): Boolean
 }

@@ -12,6 +12,8 @@ import org.tribot.automation.script.client.sidecars.Sidecars
 import org.tribot.automation.script.core.tabs.Combat
 import org.tribot.automation.script.core.tabs.Equipment
 import org.tribot.automation.script.core.tabs.Inventory
+import org.tribot.automation.script.core.tabs.Logout
+import org.tribot.automation.script.core.tabs.Magic
 import org.tribot.automation.script.core.tabs.Prayer
 import org.tribot.automation.script.core.tabs.Skills
 import org.tribot.automation.script.core.widgets.Banking
@@ -53,6 +55,8 @@ interface ScriptContext {
     val skills: Skills
     val prayer: Prayer
     val combat: Combat
+    val magic: Magic
+    val logout: Logout
     val camera: Camera
     val minimap: Minimap
 
