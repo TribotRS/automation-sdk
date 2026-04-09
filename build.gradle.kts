@@ -16,6 +16,7 @@ dependencies {
     // WebSocket + JSON (available at runtime via echo-core)
     compileOnly("com.squareup.okhttp3:okhttp:4.9.2")
     compileOnly("com.google.code.gson:gson:2.8.6")
+
 }
 
 tasks.jar {
