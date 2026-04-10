@@ -39,6 +39,14 @@ publishing {
     }
 }
 
+// JitPack post-processes the Gradle module metadata file and strips classifiers
+// from the sourcesElements variant, so IDEs can't resolve the sources jar.
+// Disable module metadata entirely and let consumers resolve sources via the
+// POM + Maven `sources` classifier convention, which JitPack handles correctly.
+tasks.withType<GenerateModuleMetadata>().configureEach {
+    enabled = false
+}
+
 // ─── Release task ───
 //
 // Triggers the GitHub release workflow on TribotRS/automation-sdk. The workflow creates a
