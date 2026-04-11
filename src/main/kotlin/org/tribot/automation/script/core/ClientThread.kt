@@ -28,6 +28,11 @@ interface ClientThread {
     fun executeBlocking(block: Runnable)
 
     /**
+     * See [executeBlocking].
+     */
+    fun <T>executeBlocking(block: () -> T): T?
+
+    /**
      * Gets Runelite's client thread instance that can invoke methods on the client thread using their technique. This
      * is slower than [executeBlocking].
      */
