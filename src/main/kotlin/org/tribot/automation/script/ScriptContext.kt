@@ -23,6 +23,7 @@ import org.tribot.automation.script.core.widgets.PinScreen
 import org.tribot.automation.script.core.widgets.Tabs
 import org.tribot.automation.script.core.world.WorldCache
 import org.tribot.automation.script.event.Events
+import org.tribot.automation.script.logging.ScriptLogger
 import org.tribot.automation.script.util.Waiting
 
 /**
@@ -88,4 +89,7 @@ interface ScriptContext {
 
     // automation (function registration & event emission)
     val automation: Automation
+
+    // logging
+    val logger: ScriptLogger
 }
