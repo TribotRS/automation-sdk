@@ -71,7 +71,6 @@ interface ScriptContext {
     val screenPrediction: ScreenPrediction
     val runtime: Runtime
     val scripts: Scripts
-    val breakHandler: BreakHandler
     val sidecars: Sidecars
     val loginHandler: LoginHandler
 

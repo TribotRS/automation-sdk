@@ -5,6 +5,7 @@ import net.runelite.api.events.ChatMessage
 import net.runelite.api.events.MenuOptionClicked
 import java.awt.Graphics2D
 import java.awt.Point
+import java.io.Closeable
 
 /**
  * Central event subscription interface for scripts to react to game, input, and lifecycle events.
@@ -132,8 +133,9 @@ interface Events {
     fun overrideKeyEvents(listener: (java.awt.event.KeyEvent) -> EventOverride): ListenerRegistration
 }
 
-fun interface ListenerRegistration {
+fun interface ListenerRegistration: Closeable {
     fun remove()
+    override fun close() = remove()
 }
 
 enum class EventOverride {
