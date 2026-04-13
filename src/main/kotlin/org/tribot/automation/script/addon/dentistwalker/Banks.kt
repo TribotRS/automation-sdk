@@ -57,5 +57,7 @@ enum class Banks {
     CIVITAS_ILLA_FORTIS,
     ROUGE_DEN,
     RFD_CHEST,
+    MUSEUM_CAMP,
+    FOSSILE_ISLAND,
     ;
 }
