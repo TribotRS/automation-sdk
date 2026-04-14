@@ -28,6 +28,36 @@ interface ClientThread {
     fun executeBlocking(block: Runnable)
 
     /**
+     * Executes the given [block] on the client thread and returns its result, blocking until
+     * completion.
+     *
+     * Semantically identical to [executeBlocking] (inline if already on the client thread,
+     * otherwise submitted and awaited); this overload just forwards the returned value.
+     *
+     * If [block] throws, the exception is rethrown on the caller's thread. If the underlying
+     * dispatcher never ran [block] (e.g. a timeout in the implementation) an
+     * [IllegalStateException] is raised rather than silently returning a garbage value.
+     */
+    fun <T> executeBlocking(block: () -> T): T {
+        var result: Any? = null
+        var completed = false
+        var error: Throwable? = null
+        executeBlocking(Runnable {
+            try {
+                result = block()
+                completed = true
+            } catch (e: Throwable) {
+                error = e
+                completed = true
+            }
+        })
+        error?.let { throw it }
+        check(completed) { "Client thread execution did not complete" }
+        @Suppress("UNCHECKED_CAST")
+        return result as T
+    }
+
+    /**
      * Gets Runelite's client thread instance that can invoke methods on the client thread using their technique. This
      * is slower than [executeBlocking].
      */
