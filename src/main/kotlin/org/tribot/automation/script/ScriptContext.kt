@@ -7,7 +7,6 @@ import org.tribot.automation.script.core.definition.Definitions
 import org.tribot.automation.script.input.*
 import org.tribot.automation.script.client.*
 import org.tribot.automation.script.navigation.Navigation
-import org.tribot.automation.script.client.sidecars.BreakHandler
 import org.tribot.automation.script.client.sidecars.LoginHandler
 import org.tribot.automation.script.client.sidecars.Sidecars
 import org.tribot.automation.script.core.tabs.Combat
@@ -53,7 +52,7 @@ interface ScriptContext {
      * The raw RuneLite [Client] with no thread-safety wrapping. Methods that mutate or read
      * engine state must be called from the client thread (use [clientThread] to dispatch).
      *
-     * Prefer [client] unless you are certain that your access pattern is on the client thread
+     * Prefer [clientRaw] unless you are certain that your access pattern is on the client thread
      * or you are managing dispatch manually for performance reasons.
      */
     val clientRaw: Client
