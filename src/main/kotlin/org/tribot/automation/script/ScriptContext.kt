@@ -6,6 +6,7 @@ import org.tribot.automation.script.core.*
 import org.tribot.automation.script.core.definition.Definitions
 import org.tribot.automation.script.input.*
 import org.tribot.automation.script.client.*
+import org.tribot.automation.script.navigation.Navigation
 import org.tribot.automation.script.client.sidecars.BreakHandler
 import org.tribot.automation.script.client.sidecars.LoginHandler
 import org.tribot.automation.script.client.sidecars.Sidecars
@@ -89,6 +90,9 @@ interface ScriptContext {
     // interaction
     val worldViews: WorldViews
     val chooseOption: ChooseOption
+
+    // navigation
+    val navigation: Navigation
 
     // client
     val window: Window
