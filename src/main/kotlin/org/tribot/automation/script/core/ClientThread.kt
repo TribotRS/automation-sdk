@@ -18,43 +18,23 @@ import net.runelite.client.callback.ClientThread
 interface ClientThread {
 
     /**
-     * Executes the given [block] on the client thread and blocks until completion.
+     * Executes [block] on the client thread and blocks until it completes, returning whatever
+     * [block] returns. If the caller is already on the client thread, [block] runs inline.
      *
-     * If the caller is already on the client thread, the block runs immediately. Otherwise, it
-     * is submitted to both the work-stealing queue and RuneLite's invoke queue — whichever path
-     * executes first wins. This allows multiple calls per game tick when the client thread has
-     * idle time, rather than requiring one render cycle per call.
+     * The return type is nullable so that legitimate `null` returns from Java-side APIs (e.g.
+     * `client.localPlayer`) flow through correctly instead of silently passing an unchecked cast.
+     * A `null` return means the block ran and returned null — never that it timed out or threw.
+     *
+     * If [block] throws, the exception is rethrown on the caller's thread.
      */
-    fun executeBlocking(block: Runnable)
+    fun <T> executeBlocking(block: () -> T): T?
 
     /**
-     * Executes the given [block] on the client thread and returns its result, blocking until
-     * completion.
-     *
-     * Semantically identical to [executeBlocking] (inline if already on the client thread,
-     * otherwise submitted and awaited); this overload just forwards the returned value.
-     *
-     * If [block] throws, the exception is rethrown on the caller's thread. If the underlying
-     * dispatcher never ran [block] (e.g. a timeout in the implementation) an
-     * [IllegalStateException] is raised rather than silently returning a garbage value.
+     * Convenience shim over the generic form for callers that don't need a return value (and for
+     * Java interop via SAM conversion).
      */
-    fun <T> executeBlocking(block: () -> T): T {
-        var result: Any? = null
-        var completed = false
-        var error: Throwable? = null
-        executeBlocking(Runnable {
-            try {
-                result = block()
-                completed = true
-            } catch (e: Throwable) {
-                error = e
-                completed = true
-            }
-        })
-        error?.let { throw it }
-        check(completed) { "Client thread execution did not complete" }
-        @Suppress("UNCHECKED_CAST")
-        return result as T
+    fun executeBlocking(block: Runnable) {
+        executeBlocking<Unit> { block.run() }
     }
 
     /**

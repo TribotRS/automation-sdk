@@ -10,16 +10,9 @@ import net.runelite.api.coords.WorldPoint
 data class GroundItem(
     val item: TileItem,
     val position: WorldPoint
-) {
-    val id: Int get() = item.id
-    val quantity: Int get() = item.quantity
-}
+)
 
 interface WorldViews {
-    /**
-     * Gets the local player (your character).
-     */
-    fun getLocalPlayer(): Player?
 
     /**
      * Gets all players in the top level world view.
