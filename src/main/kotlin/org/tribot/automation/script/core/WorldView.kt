@@ -98,6 +98,18 @@ interface WorldViews {
     ): R?
 
     /**
+     * Resolves the [Tile] at [point] in [worldView]. Returns null if the point is not loaded
+     * in the world view's scene (out-of-bounds plane, unloaded chunk, etc.).
+     *
+     * @param point The world coordinate to resolve.
+     * @param worldView The world view to look up in. `null` (the default) uses the top-level
+     *   world view. Pass a specific [WorldView] for an instance (POH, raids, etc.).
+     *
+     * Runs on the client thread. Executes synchronously if already on the client thread.
+     */
+    fun tileAt(point: WorldPoint, worldView: WorldView? = null): Tile?
+
+    /**
      * Gets all graphics objects (spot animations) in the top level world view.
      *
      * Runs on the client thread. Executes synchronously if already on the client thread.
