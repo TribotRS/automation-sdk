@@ -12,7 +12,23 @@ import net.runelite.api.coords.WorldPoint
 data class GroundItem(
     val item: TileItem,
     val position: WorldPoint
-)
+) {
+    companion object {
+        /**
+         * Wraps every [TileItem] on [tile] as a [GroundItem], pairing each with the tile's
+         * [WorldPoint]. Returns an empty list if the tile has no ground items.
+         *
+         * Intended for use inside [WorldViews.withTiles] blocks, where tiles are already
+         * being iterated on the client thread. Must be called on the client thread, since
+         * it reads live scene data.
+         */
+        fun fromTile(tile: Tile): List<GroundItem> {
+            val items = tile.groundItems ?: return emptyList()
+            val position = tile.worldLocation
+            return items.map { GroundItem(it, position) }
+        }
+    }
+}
 
 interface WorldViews {
 

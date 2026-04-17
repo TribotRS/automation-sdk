@@ -2,7 +2,9 @@ package org.tribot.automation.script.input
 
 import net.runelite.api.Actor
 import net.runelite.api.TileObject
+import net.runelite.api.coords.WorldPoint
 import net.runelite.api.widgets.Widget
+import org.tribot.automation.script.core.GroundItem
 
 interface Interaction {
 
@@ -15,6 +17,64 @@ interface Interaction {
 
     fun click(obj: TileObject, option: String): Boolean
     fun hover(obj: TileObject): Boolean
+
+    // -- Ground items --
+
+    /**
+     * Clicks the ground item of id [itemId] on the tile at [position]. The pair uniquely
+     * identifies the intended [net.runelite.api.MenuEntry] even when multiple items of the
+     * same id sit on different tiles.
+     *
+     * This raw form is for callers who hold an id and a position but no [GroundItem]
+     * (e.g. loaded from config). If you already have a [GroundItem], prefer the
+     * [click] overload that takes one.
+     */
+    fun clickGroundItem(itemId: Int, position: WorldPoint, option: String): Boolean
+
+    /**
+     * Moves the cursor onto the ground-item stack at [position]. Ground items on the same
+     * tile share a clickbox, so hovering is a tile-level operation: it cannot target one
+     * item in a stack over another. Returns false if the tile is not loaded or carries
+     * no ground items.
+     */
+    fun hoverItemLayer(position: WorldPoint): Boolean
+
+    fun click(groundItem: GroundItem, option: String): Boolean =
+        clickGroundItem(groundItem.item.id, groundItem.position, option)
+
+    fun hover(groundItem: GroundItem): Boolean =
+        hoverItemLayer(groundItem.position)
+
+    // -- Tiles --
+
+    /**
+     * Left-clicks the tile at [position] and verifies the menu action was `Walk here`.
+     * This is a single-tile walk: no pathing is performed. For multi-tile navigation
+     * use a higher-level walker that feeds individual tiles to this method.
+     *
+     * Unlike object/actor clicks, there is only one meaningful action on a bare tile
+     * (walking), so no option parameter is taken. If something on the tile steals the
+     * click (an NPC, a ground item), the underlying retry logic reselects a new random
+     * point on the tile before falling back to the right-click menu.
+     *
+     * @param avoidGroundItems When true, the random click point is biased to fall
+     *   outside the tile's ground-item clickbox when possible, so the default left-click
+     *   action remains `Walk here` instead of the ground-item action. Best-effort: if
+     *   the item stack covers the entire visible tile, a point inside it may still be
+     *   chosen rather than failing outright. Has no effect on tiles without ground items.
+     */
+    fun walkHere(position: WorldPoint, avoidGroundItems: Boolean = false): Boolean
+
+    /**
+     * Moves the cursor onto the tile at [position] using the same point-selection logic
+     * as [walkHere], but does not click. Returns false if the tile isn't visible.
+     *
+     * @param avoidGroundItems When true, the cursor is biased to land outside the tile's
+     *   ground-item clickbox when possible, matching [walkHere]. Useful when pre-hovering
+     *   a tile that will be walked to shortly — landing outside the item layer keeps
+     *   `Walk here` as the default left-click action. Best-effort; see [walkHere].
+     */
+    fun hoverTile(position: WorldPoint, avoidGroundItems: Boolean = false): Boolean
 
     // -- Widgets --
 
