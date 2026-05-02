@@ -18,6 +18,42 @@ interface Interaction {
     fun click(obj: TileObject, option: String): Boolean
     fun hover(obj: TileObject): Boolean
 
+    // -- End-to-end interaction --
+    //
+    // Like [click], but if the target is out of view the implementation will rotate
+    // the camera and (when [InteractOptions.allowMovement] is true) walk towards the
+    // target until it is visible, then click it. The intent is one call that handles
+    // every case a script might encounter, with smooth, non-robotic motion.
+
+    /**
+     * Drives the character to interact with [actor] using [option], handling camera
+     * and walking automatically when the actor is out of view. Returns true if the
+     * action was sent. See [InteractOptions] for tuning.
+     */
+    fun interact(actor: Actor, option: String, options: InteractOptions = InteractOptions()): Boolean
+
+    /**
+     * Drives the character to interact with [obj] using [option], handling camera
+     * and walking automatically when the object is out of view. Returns true if the
+     * action was sent.
+     */
+    fun interact(obj: TileObject, option: String, options: InteractOptions = InteractOptions()): Boolean
+
+    /**
+     * Drives the character to interact with the ground item identified by [itemId]
+     * at [position] using [option]. Mirrors [clickGroundItem] but adds camera and
+     * walking handling.
+     */
+    fun interactGroundItem(
+        itemId: Int,
+        position: WorldPoint,
+        option: String,
+        options: InteractOptions = InteractOptions(),
+    ): Boolean
+
+    fun interact(groundItem: GroundItem, option: String, options: InteractOptions = InteractOptions()): Boolean =
+        interactGroundItem(groundItem.item.id, groundItem.position, option, options)
+
     // -- Ground items --
 
     /**
