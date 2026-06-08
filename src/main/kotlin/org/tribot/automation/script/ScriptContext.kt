@@ -24,6 +24,7 @@ import org.tribot.automation.script.core.widgets.Tabs
 import org.tribot.automation.script.core.world.WorldCache
 import org.tribot.automation.script.event.Events
 import org.tribot.automation.script.logging.ScriptLogger
+import org.tribot.automation.script.util.GameCache
 import org.tribot.automation.script.util.Waiting
 
 /**
@@ -95,6 +96,7 @@ interface ScriptContext {
 
     // client
     val window: Window
+    val sidebar: Sidebar
     val screen: Screen
     val screenPrediction: ScreenPrediction
     val runtime: Runtime
@@ -107,6 +109,7 @@ interface ScriptContext {
 
     // util
     val waiting: Waiting
+    val gameCache: GameCache
 
     // permissions
     val permissions: Permissions

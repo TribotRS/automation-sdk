@@ -1,4 +1,8 @@
 package org.tribot.automation.script.community
 
-interface CommunityApi {
+import org.tribot.automation.script.ScriptContext
+import org.tribot.automation.script.community.widgets.MakeScreen
+
+class CommunityApi(ctx: ScriptContext) {
+    val makeScreen = MakeScreen(ctx)
 }
