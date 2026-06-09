@@ -12,7 +12,7 @@ import kotlin.random.Random
  * #### 1. Fixed probability
  * Executes the block with a fixed 8% chance.
  * ```kotlin
- * CommunityApi(ScriptContext.get()).lottery.execute(0.08) {
+ * CommunityApi(ScriptContext).lottery.execute(0.08) {
  *     MiniBreak.fatigueLeave()
  * }
  * ```
@@ -20,7 +20,7 @@ import kotlin.random.Random
  * #### 2. Range-based probability
  * Randomly picks a probability between 5% and 13%, and executes based on that roll.
  * ```kotlin
- * CommunityApi(ScriptContext.get()).lottery.execute(0.05..0.13) {
+ * CommunityApi(ScriptContext).lottery.execute(0.05..0.13) {
  *     MiniBreak.fatigueLeave()
  * }
  * ```
@@ -29,7 +29,7 @@ import kotlin.random.Random
  * Always executes when a condition is met (e.g., inventory full),
  * otherwise rolls based on probability range.
  * ```kotlin
- * CommunityApi(ScriptContext.get()).lottery.executeGuaranteed(0.05..0.13, guaranteedCondition = { Inventory.isFull() }) {
+ * CommunityApi(ScriptContext).lottery.executeGuaranteed(0.05..0.13, guaranteedCondition = { Inventory.isFull() }) {
  *     processInventory()
  * }
  * ```
@@ -47,7 +47,7 @@ class Lottery(
     /**
      * Configures the Lottery, currently to enable/disable logging.
      *
-     * @example CommunityApi(ScriptContext.get()).lottery.configure(true)
+     * @example CommunityApi(ScriptContext).lottery.configure(true)
      */
     fun configure(loggingEnabled: Boolean = false) {
         enableLogging = loggingEnabled
@@ -135,6 +135,9 @@ class Lottery(
         return diceRoll < probability
     }
 
+    /**
+     * Helpers
+     */
     private inline fun trace(message: () -> String) {
         if (enableLogging) {
             ctx.logger.trace(message())
