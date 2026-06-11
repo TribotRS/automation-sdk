@@ -1,5 +1,7 @@
 package org.tribot.automation.script.logging
 
+import org.tribot.automation.script.event.ListenerRegistration
+
 enum class LogLevel {
     TRACE,
     DEBUG,
@@ -8,10 +10,29 @@ enum class LogLevel {
     ERROR,
 }
 
+/** A single log entry produced by the client. */
+data class LogEntry(
+    val level: LogLevel,
+    val message: String,
+    val throwable: Throwable? = null,
+)
+
 interface ScriptLogger {
     fun log(level: LogLevel, message: String)
     fun log(level: LogLevel, message: String, throwable: Throwable?)
     fun isLevelEnabled(level: LogLevel): Boolean
+
+    /**
+     * Called for every log entry the client produces, including logs from this script,
+     * other running scripts, and the client itself.
+     *
+     * Listeners are invoked synchronously on the thread that produced the entry, so they
+     * should return quickly. Log calls made from within a listener are not re-delivered
+     * to listeners.
+     *
+     * Listeners are automatically cleaned up when the script ends.
+     */
+    fun onLog(listener: (entry: LogEntry) -> Unit): ListenerRegistration
 
     fun trace(message: String) = log(LogLevel.TRACE, message)
     fun debug(message: String) = log(LogLevel.DEBUG, message)
